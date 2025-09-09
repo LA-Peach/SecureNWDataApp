@@ -136,7 +136,7 @@ public class LoginLayer extends JFrame {
 				String database = databaseField.getText();
 				String username = usernameField.getText();
 				String password = new String(passwordField.getPassword());
-				String connectionString = "jdbc:sqlserver://localhost:1433;databaseName=Northwind;user=" + username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
+				String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + database + ";user=" + username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
 				
 				//Validate user input
 				try(Connection connection = DriverManager.getConnection(connectionString)){

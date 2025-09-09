@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.FlowLayout;
-import app.Inventory;
+import app.Orders;
 
 public class Selection extends JFrame {
 
@@ -57,7 +57,7 @@ public class Selection extends JFrame {
 				try {
 					//Test for access first
 					logic.getCustomerAmount();
-					
+					//If no exception, open the window
 					PresentationLayer customers = new PresentationLayer(logic);
 					customers.setVisible(true);
 				} catch(SQLException ee) {
@@ -83,15 +83,15 @@ public class Selection extends JFrame {
 			}
 		});
 		
-		JButton inventoryButton = new JButton("Inventory");
-		inventoryButton.setFont(new Font("Cambria", Font.PLAIN, 12));
-		panel.add(inventoryButton);
-		inventoryButton.addActionListener(new ActionListener() {
+		JButton ordersButton = new JButton("Orders");
+		ordersButton.setFont(new Font("Cambria", Font.PLAIN, 12));
+		panel.add(ordersButton);
+		ordersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					logic.getItemAmount();
-					Inventory inventoryData = new Inventory(logic);
-					inventoryData.setVisible(true);
+					logic.getOrdersAmount();
+					Orders ordersData = new Orders(logic);
+					ordersData.setVisible(true);
 				} catch(SQLException ee) {
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
 				}

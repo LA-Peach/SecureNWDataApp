@@ -68,29 +68,29 @@ public class DatabaseAccessLayer {
 		return employees;
 	}
 	//Method to find the amount of products in the database
-	public int getItemAmount() throws SQLException{
+	public int getOrdersAmount() throws SQLException{
 		//Code to query the database
-		String sqlInput = "SELECT COUNT(*) AS amountItems FROM Products";
+		String sqlInput = "SELECT COUNT(*) AS amountOrders FROM Orders";
 		Statement statement = connection.createStatement();
 		//Receive the results for the SQL input
 		ResultSet result = statement.executeQuery(sqlInput);
 		if (result.next()) {
-			return result.getInt("amountItems");
+			return result.getInt("amountOrders");
 		}
 		else {
 			return 0;
 	}
 }
-	public List<String> getInventory() throws SQLException{
-		List<String> inventory = new ArrayList<>();
-		//CHAR(9) is tab
-		String sqlInput = "SELECT ProductName + SPACE(6) + CAST(UnitsInStock AS varchar) + ' @ ' + CAST(UnitPrice AS varchar) AS inventoryData FROM Products";
+	public List<String> getOrders() throws SQLException{
+		List<String> orders = new ArrayList<>();
+		//Extra spaces added for readability
+		String sqlInput = "SELECT 'Ship to:   ' + ShipName + '   @   ' + ShipAddress + '   ' + ShipCity + '   ' + ShipCountry + '   ' + ShipPostalCode AS ordersData FROM Orders";
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(sqlInput);
 		//Add each submission in the results to the list
 		while (result.next()) {
-			inventory.add(result.getString("inventoryData"));
+			orders.add(result.getString("ordersData"));
 		}
-		return inventory;
+		return orders;
 	}
 }

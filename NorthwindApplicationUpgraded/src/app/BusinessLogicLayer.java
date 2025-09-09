@@ -26,12 +26,12 @@ public class BusinessLogicLayer {
 		return database.getEmployeeNames();
 	}
 	//Product amount method
-	public int getItemAmount() throws SQLException{
-		return database.getItemAmount();
+	public int getOrdersAmount() throws SQLException{
+		return database.getOrdersAmount();
 	}
 	//Inventory method
-	public List<String> getInventory() throws SQLException{
-		return database.getInventory();
+	public List<String> getOrders() throws SQLException{
+		return database.getOrders();
 	}
 
 }
