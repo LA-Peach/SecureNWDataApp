@@ -47,7 +47,7 @@ public class LoginLayer extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		
 		JLabel loginTitleLabel = new JLabel("Login to Northwind");
-		loginTitleLabel.setFont(new Font("Cambria", Font.BOLD, 16));
+		loginTitleLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel.add(loginTitleLabel);
 		
 		JPanel panel_1 = new JPanel();
@@ -91,7 +91,7 @@ public class LoginLayer extends JFrame {
 		
 		JLabel serverLabel = new JLabel("Server: ");
 		serverLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		serverLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		serverLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel_1.add(serverLabel, "6, 4, left, default");
 		
 		serverField = new JTextField();
@@ -101,7 +101,7 @@ public class LoginLayer extends JFrame {
 		
 		JLabel databaseLabel = new JLabel("Database: ");
 		databaseLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		databaseLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		databaseLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel_1.add(databaseLabel, "6, 6, left, default");
 		
 		databaseField = new JTextField();
@@ -111,7 +111,7 @@ public class LoginLayer extends JFrame {
 		
 		JLabel usernameLabel = new JLabel("Username: ");
 		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		usernameLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel_1.add(usernameLabel, "6, 8, left, default");
 		usernameLabel.setLabelFor(usernameField);
 		
@@ -121,7 +121,7 @@ public class LoginLayer extends JFrame {
 		
 		JLabel passwordLabel = new JLabel("Password: ");
 		passwordLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		passwordLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel_1.add(passwordLabel, "6, 10, left, default");
 		passwordLabel.setLabelFor(passwordField);
 		
@@ -129,7 +129,7 @@ public class LoginLayer extends JFrame {
 		panel_1.add(passwordField, "8, 10, 7, 1, fill, default");
 		
 		JButton loginButton = new JButton("Submit");
-		loginButton.setFont(new Font("Cambria", Font.PLAIN, 12));
+		loginButton.setFont(new Font("Arial", Font.PLAIN, 12));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String server = serverField.getText();

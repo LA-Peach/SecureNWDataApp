@@ -42,7 +42,7 @@ public class Selection extends JFrame {
 		
 		JLabel selectionsLabel = new JLabel("Selections");
 		selectionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		selectionsLabel.setFont(new Font("Cambria", Font.BOLD, 16));
+		selectionsLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		contentPane.add(selectionsLabel, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
@@ -50,7 +50,7 @@ public class Selection extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton customerButton = new JButton("Customers");
-		customerButton.setFont(new Font("Cambria", Font.PLAIN, 12));
+		customerButton.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel.add(customerButton);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,7 +68,7 @@ public class Selection extends JFrame {
 		});
 		
 		JButton employeeButton = new JButton("Employees");
-		employeeButton.setFont(new Font("Cambria", Font.PLAIN, 12));
+		employeeButton.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel.add(employeeButton);
 		employeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,7 +84,7 @@ public class Selection extends JFrame {
 		});
 		
 		JButton ordersButton = new JButton("Orders");
-		ordersButton.setFont(new Font("Cambria", Font.PLAIN, 12));
+		ordersButton.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel.add(ordersButton);
 		ordersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

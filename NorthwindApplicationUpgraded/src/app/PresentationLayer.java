@@ -45,19 +45,23 @@ public class PresentationLayer extends JFrame {
 		contentPane.add(customerDataLabel, BorderLayout.NORTH);
 		
 		companiesList = new JList();
+		companiesList.setFont(new Font("Arial", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(companiesList);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 		JLabel customerNamesLabel = new JLabel("Customer Names: ");
+		customerNamesLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		contentPane.add(customerNamesLabel, BorderLayout.WEST);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		
 		JLabel customerAmountLabel = new JLabel("Number of Customers: ");
+		customerAmountLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		panel.add(customerAmountLabel);
 		
 		customerNumLabel = new JLabel("");
+		customerNumLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(customerNumLabel);
 		
 		dataFiller();

@@ -1,7 +1,6 @@
 package app;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,22 +48,23 @@ public class Orders extends JFrame {
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JLabel guideLabel = new JLabel("Ship to the following: Customer Name   @   Address");
-		guideLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		guideLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		guideLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_1.add(guideLabel, BorderLayout.NORTH);
 		
 		ordersDataList = new JList<>();
+		ordersDataList.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel_1.add(ordersDataList, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		
 		JLabel ordersAmountLabel = new JLabel("Number of Orders: ");
-		ordersAmountLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		ordersAmountLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		panel.add(ordersAmountLabel);
 		
 		ordersNumLabel = new JLabel("");
-		ordersNumLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		ordersNumLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(ordersNumLabel);
 		
 		dataFiller();
