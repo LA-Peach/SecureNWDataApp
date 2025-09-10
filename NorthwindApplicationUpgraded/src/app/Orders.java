@@ -48,6 +48,11 @@ public class Orders extends JFrame {
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
+		JLabel guideLabel = new JLabel("Ship to the following: Customer Name   @   Address");
+		guideLabel.setFont(new Font("Cambria", Font.PLAIN, 14));
+		guideLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		panel_1.add(guideLabel, BorderLayout.NORTH);
+		
 		ordersDataList = new JList<>();
 		panel_1.add(ordersDataList, BorderLayout.CENTER);
 		

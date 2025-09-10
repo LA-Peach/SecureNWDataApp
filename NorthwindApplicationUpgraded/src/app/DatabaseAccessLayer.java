@@ -84,7 +84,7 @@ public class DatabaseAccessLayer {
 	public List<String> getOrders() throws SQLException{
 		List<String> orders = new ArrayList<>();
 		//Extra spaces added for readability
-		String sqlInput = "SELECT 'Ship to:   ' + ShipName + '   @   ' + ShipAddress + '   ' + ShipCity + '   ' + ShipCountry + '   ' + ShipPostalCode AS ordersData FROM Orders";
+		String sqlInput = "SELECT ShipName + '   @   ' + ShipAddress + '  ' + ShipCity + ', ' + ShipCountry + '  ' + ShipPostalCode AS ordersData FROM Orders";
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery(sqlInput);
 		//Add each submission in the results to the list
