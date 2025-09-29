@@ -136,9 +136,29 @@ public class LoginLayer extends JFrame {
 				String database = databaseField.getText();
 				String username = usernameField.getText();
 				String password = new String(passwordField.getPassword());
+				
+				//Input validation
+				if (!InputValidation.validateServer(server)) {
+					JOptionPane.showMessageDialog(null, "Invalid server input", "Invalid", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!InputValidation.validateDatabase(database)) {
+					JOptionPane.showMessageDialog(null, "Invalid database input", "Invalid", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!InputValidation.validateUsername(username)) {
+					JOptionPane.showMessageDialog(null, "Invalid username input", "Invalid", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!InputValidation.validatePassword(password)) {
+					JOptionPane.showMessageDialog(null, "Invalid password input", "Invalid", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				//Connection string for the database
 				String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + database + ";user=" + username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
 				
-				//Validate user input
+				//Attempt to connect to the database
 				try(Connection connection = DriverManager.getConnection(connectionString)){
 					DatabaseAccessLayer data = new DatabaseAccessLayer(connectionString);
 					BusinessLogicLayer logic = new BusinessLogicLayer(data);
