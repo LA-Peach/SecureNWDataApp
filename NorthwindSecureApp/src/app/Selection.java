@@ -38,7 +38,7 @@ public class Selection extends JFrame {
 	public Selection(BusinessLogicLayer logic) {
 		this.logic = logic;
 		setTitle("Northwind DataApp");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,6 +111,10 @@ public class Selection extends JFrame {
 		panel_1.add(logoutButton, "cell 0 0, alignx left, aligny top");
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (JFrame child : getOpenFrames()) {
+					child.dispose();
+				}
+				openFrames.clear();
 				dispose();
 				new LoginLayer().setVisible(true);
 			}
@@ -126,6 +130,15 @@ public class Selection extends JFrame {
 		setLocationRelativeTo(null);
 		
 
+	}
+	
+	public void logout() {
+		for (JFrame child : getOpenFrames()) {
+			child.dispose();
+		}
+		openFrames.clear();
+		dispose();
+		new LoginLayer().setVisible(true);
 	}
 	
 	public List<JFrame> getOpenFrames() {

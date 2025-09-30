@@ -165,7 +165,7 @@ public class LoginLayer extends JFrame {
 					BusinessLogicLayer logic = new BusinessLogicLayer(data);
 					Selection selection = new Selection(logic);
 					selection.setVisible(true);
-					dispose();
+					LoginLayer.this.setVisible(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "Login failed", "Invalid", JOptionPane.ERROR_MESSAGE);
