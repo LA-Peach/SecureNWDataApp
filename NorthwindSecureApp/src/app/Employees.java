@@ -27,13 +27,15 @@ public class Employees extends JFrame {
 	private JLabel employeeNumLabel;
 	private JList<String> employeeList;
 	private BusinessLogicLayer logic;
+	private SessionTimeout sessionTimeout;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public Employees(BusinessLogicLayer logic, Selection parent) {
+	public Employees(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout) {
 		this.logic = logic;
+		this.sessionTimeout = sessionTimeout;
 		setTitle("Northwind DataApp");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -80,11 +82,15 @@ public class Employees extends JFrame {
 			}
 		});
 		
+		
 		JLabel employeeDataLabel = new JLabel("Employee Data");
 		employeeDataLabel.setVerticalAlignment(SwingConstants.TOP);
 		employeeDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		employeeDataLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(employeeDataLabel, "cell 1 0, growx");
+		
+		sessionTimeout.detectUserActivity(this);
+		sessionTimeout.startTimer();
 		
 		dataFiller();
 		

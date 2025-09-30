@@ -30,7 +30,7 @@ public class Selection extends JFrame {
 	private JPanel contentPane;
 	private BusinessLogicLayer logic;
 	private List<JFrame> openFrames = new ArrayList<>();
-
+	private SessionTimeout sessionTimeout;
 
 	/**
 	 * Create the frame.
@@ -57,8 +57,10 @@ public class Selection extends JFrame {
 				try {
 					//Test for access first
 					logic.getCustomerAmount();
+					//Reset the timer on activity
+					sessionTimeout.resetTimer();
 					//If no exception, open the window
-					PresentationLayer customers = new PresentationLayer(logic, Selection.this);
+					PresentationLayer customers = new PresentationLayer(logic, Selection.this, sessionTimeout);
 					openFrames.add(customers);
 					customers.setVisible(true);
 				} catch(SQLException ee) {
@@ -75,7 +77,9 @@ public class Selection extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					logic.getEmployeeAmount();
-					Employees employeeData = new Employees(logic, Selection.this);
+					//Reset the timer on activity
+					sessionTimeout.resetTimer();
+					Employees employeeData = new Employees(logic, Selection.this, sessionTimeout);
 					openFrames.add(employeeData);
 					employeeData.setVisible(true);
 				} catch(SQLException ee) {
@@ -92,7 +96,8 @@ public class Selection extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					logic.getOrdersAmount();
-					Orders ordersData = new Orders(logic, Selection.this);
+					sessionTimeout.resetTimer();
+					Orders ordersData = new Orders(logic, Selection.this, sessionTimeout);
 					openFrames.add(ordersData);
 					ordersData.setVisible(true);
 				} catch(SQLException ee) {
@@ -130,6 +135,15 @@ public class Selection extends JFrame {
 		setLocationRelativeTo(null);
 		
 
+		sessionTimeout = new SessionTimeout(() -> {
+			logout();
+			JOptionPane.showMessageDialog(null, "Session timed out due to inactivity.", 
+					"Session Timeout", JOptionPane.INFORMATION_MESSAGE);
+		});
+		sessionTimeout.detectUserActivity(this);
+		sessionTimeout.startTimer();
+		
+		
 	}
 	
 	public void logout() {

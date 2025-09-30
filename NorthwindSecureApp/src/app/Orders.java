@@ -26,13 +26,15 @@ public class Orders extends JFrame {
 	private JLabel ordersNumLabel;
 	private BusinessLogicLayer logic;
 	private JList<String> ordersDataList;
+	private SessionTimeout sessionTimeout;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public Orders(BusinessLogicLayer logic, Selection parent) {
+	public Orders(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout) {
 		this.logic = logic;
+		this.sessionTimeout = sessionTimeout;
 		setTitle("Northwind DataApp");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -91,6 +93,8 @@ public class Orders extends JFrame {
 		guideLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		guideLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		
+		sessionTimeout.detectUserActivity(this);
+		sessionTimeout.startTimer();
 		
 		dataFiller();
 		

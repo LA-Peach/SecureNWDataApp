@@ -173,6 +173,9 @@ public class LoginLayer extends JFrame {
 			}
 		});
 		panel_1.add(loginButton, "10, 14");
+		
+		pack();
+		setLocationRelativeTo(null);
 
 	}
 

@@ -27,13 +27,15 @@ public class PresentationLayer extends JFrame {
 	private JLabel customerNumLabel;
 	private JList<String> companiesList;
 	private BusinessLogicLayer logic;
+	private SessionTimeout sessionTimeout;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public PresentationLayer(BusinessLogicLayer logic, Selection parent) {
+	public PresentationLayer(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout) {
 		this.logic = logic;
+		this.sessionTimeout = sessionTimeout;
 		setTitle("Northwind DataApp");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -85,6 +87,9 @@ public class PresentationLayer extends JFrame {
 		customerDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		customerDataLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panel_1.add(customerDataLabel, "cell 1 0,growx");
+		
+		sessionTimeout.detectUserActivity(this);
+		sessionTimeout.startTimer();
 		
 		dataFiller();
 		
