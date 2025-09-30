@@ -156,7 +156,8 @@ public class LoginLayer extends JFrame {
 				}
 				
 				//Connection string for the database
-				String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + database + ";user=" + username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
+				String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + database + ";user=" 
+				+ username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
 				
 				//Attempt to connect to the database
 				try(Connection connection = DriverManager.getConnection(connectionString)){

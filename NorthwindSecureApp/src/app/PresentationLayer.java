@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JButton;
 
 public class PresentationLayer extends JFrame {
 
@@ -28,21 +32,15 @@ public class PresentationLayer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PresentationLayer(BusinessLogicLayer logic) {
+	public PresentationLayer(BusinessLogicLayer logic, Selection parent) {
 		this.logic = logic;
 		setTitle("Northwind DataApp");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JLabel customerDataLabel = new JLabel("Customer Data");
-		customerDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		customerDataLabel.setVerticalAlignment(SwingConstants.TOP);
-		customerDataLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		contentPane.add(customerDataLabel, BorderLayout.NORTH);
 		
 		companiesList = new JList();
 		companiesList.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -64,7 +62,34 @@ public class PresentationLayer extends JFrame {
 		customerNumLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(customerNumLabel);
 		
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new MigLayout("", "[][grow]", "[25px]"));
+		
+		JButton logoutButton = new JButton("Log Out");
+		logoutButton.setFont(new Font("Arial", Font.PLAIN, 10));
+		panel_1.add(logoutButton, "cell 0 0, alignx left, aligny top");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (JFrame child : parent.getOpenFrames()) {
+					child.dispose();
+				}
+				parent.dispose();
+				dispose();
+				new LoginLayer().setVisible(true);
+			}
+		});
+		
+		JLabel customerDataLabel = new JLabel("Customer Data");
+		customerDataLabel.setVerticalAlignment(SwingConstants.TOP);
+		customerDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		customerDataLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		panel_1.add(customerDataLabel, "cell 1 0,growx");
+		
 		dataFiller();
+		
+		pack();
+		setLocationRelativeTo(null);
 
 	}
 

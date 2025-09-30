@@ -2,7 +2,11 @@ package app;
 
 public class InputValidation {
 	
-	//BASIC VALIDATION = Non-null, non-empty, no spaces, whitelist basic characters [a-zA-Z0-9-], length equal or under 128 length
+	/*BASIC VALIDATION 
+	 * Non-null, non-empty, no spaces 
+	 * whitelist basic characters [a-zA-Z0-9-] 
+	 * length equal or under 128 length
+	 */
 	
 	/*SERVER VALIDATION
 	 * Basic Validation

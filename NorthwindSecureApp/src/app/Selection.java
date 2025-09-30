@@ -17,14 +17,19 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.FlowLayout;
 import app.Orders;
+import javax.swing.JSeparator;
+import net.miginfocom.swing.MigLayout;
 
 public class Selection extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private BusinessLogicLayer logic;
+	private List<JFrame> openFrames = new ArrayList<>();
 
 
 	/**
@@ -34,16 +39,11 @@ public class Selection extends JFrame {
 		this.logic = logic;
 		setTitle("Northwind DataApp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 100);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JLabel selectionsLabel = new JLabel("Selections");
-		selectionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		selectionsLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		contentPane.add(selectionsLabel, BorderLayout.NORTH);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -58,7 +58,8 @@ public class Selection extends JFrame {
 					//Test for access first
 					logic.getCustomerAmount();
 					//If no exception, open the window
-					PresentationLayer customers = new PresentationLayer(logic);
+					PresentationLayer customers = new PresentationLayer(logic, Selection.this);
+					openFrames.add(customers);
 					customers.setVisible(true);
 				} catch(SQLException ee) {
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
@@ -74,7 +75,8 @@ public class Selection extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					logic.getEmployeeAmount();
-					Employees employeeData = new Employees(logic);
+					Employees employeeData = new Employees(logic, Selection.this);
+					openFrames.add(employeeData);
 					employeeData.setVisible(true);
 				} catch(SQLException ee) {
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
@@ -90,7 +92,8 @@ public class Selection extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					logic.getOrdersAmount();
-					Orders ordersData = new Orders(logic);
+					Orders ordersData = new Orders(logic, Selection.this);
+					openFrames.add(ordersData);
 					ordersData.setVisible(true);
 				} catch(SQLException ee) {
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
@@ -98,7 +101,35 @@ public class Selection extends JFrame {
 				
 			}
 		});
+		
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new MigLayout("", "[][grow]", "[25px]"));
+		
+		JButton logoutButton = new JButton("Log Out");
+		logoutButton.setFont(new Font("Arial", Font.PLAIN, 10));
+		panel_1.add(logoutButton, "cell 0 0, alignx left, aligny top");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new LoginLayer().setVisible(true);
+			}
+		});
+		
+		
+		JLabel selectionsLabel = new JLabel("Selections");
+		selectionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		selectionsLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panel_1.add(selectionsLabel, "cell 1 0,growx");
+		
+		pack();
+		setLocationRelativeTo(null);
+		
 
+	}
+	
+	public List<JFrame> getOpenFrames() {
+		return openFrames;
 	}
 
 }
