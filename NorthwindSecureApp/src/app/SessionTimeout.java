@@ -9,8 +9,7 @@ public class SessionTimeout {
 	
 	private Timer sessionInactivityTimer;
 	// Timeout duration in milliseconds, currently set to 3 minutes
-	//CHANGED FOR TESTING - CHANGE BACK TO 3*60*1000
-	private int timeoutDuration = 1 * 60 * 1000;
+	private int timeoutDuration = 3 * 60 * 1000;
 	
 	public SessionTimeout(Runnable onTimeout) {
 		sessionInactivityTimer = new Timer(timeoutDuration, new ActionListener() {
