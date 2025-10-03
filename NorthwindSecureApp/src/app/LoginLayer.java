@@ -1,7 +1,5 @@
 package app;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -27,6 +25,7 @@ import java.awt.event.ActionEvent;
 public class LoginLayer extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	public static String username;
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
@@ -36,7 +35,14 @@ public class LoginLayer extends JFrame {
 	public LoginLayer() {
 		setTitle("NorthwindDataApp");
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setName("Login");
+		
+		//When the user clicks red X fully close the application
+		addWindowListener(new WindowHandler(() -> {
+			EventLog.writeLog(Events.APP_EXIT);
+			System.exit(0);
+		}));
+		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -139,21 +145,35 @@ public class LoginLayer extends JFrame {
 				
 				//Input validation
 				if (!InputValidation.validateServer(server)) {
+					
+					EventLog.writeLog(Events.INVALID_SERVER);
+					
 					JOptionPane.showMessageDialog(null, "Invalid server input", "Invalid", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!InputValidation.validateDatabase(database)) {
+					
+					EventLog.writeLog(Events.INVALID_DATABASE);
+					
 					JOptionPane.showMessageDialog(null, "Invalid database input", "Invalid", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!InputValidation.validateUsername(username)) {
+
+					EventLog.writeLog(Events.INVALID_USERNAME);
+					
 					JOptionPane.showMessageDialog(null, "Invalid username input", "Invalid", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!InputValidation.validatePassword(password)) {
+
+					EventLog.writeLog(Events.INVALID_PASSWORD);
+										
 					JOptionPane.showMessageDialog(null, "Invalid password input", "Invalid", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				
+				EventLog.writeLog(Events.LOGIN_VALIDATED);
 				
 				//Connection string for the database
 				String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + database + ";user=" 
@@ -165,9 +185,16 @@ public class LoginLayer extends JFrame {
 					BusinessLogicLayer logic = new BusinessLogicLayer(data);
 					Selection selection = new Selection(logic);
 					selection.setVisible(true);
+					
+					Session.setUser(username);
+					
+					EventLog.writeLog(Events.SUCCESSFUL_LOGIN);
+					
 					LoginLayer.this.setVisible(false);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					
+					EventLog.writeLog(Events.FAILED_LOGIN);
+					
 					JOptionPane.showMessageDialog(null, "Login failed", "Invalid", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -176,6 +203,8 @@ public class LoginLayer extends JFrame {
 		
 		pack();
 		setLocationRelativeTo(null);
+		
+		
 
 	}
 

@@ -1,0 +1,2 @@
+Oct 02, 2025 1:34:41 AM app.EventLog writeLog
+INFO: CEF:1|LA-Peach|Northwind DataApp|0.6|10|Application Started|6|src=192.168.1.229 suser=N/A outcome=Success msg=Application started via the Main class, opens the Login window rt=Oct 02 2025 01:34:41 st=[INFO]

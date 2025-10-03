@@ -4,7 +4,7 @@ public class InputValidation {
 	
 	/*BASIC VALIDATION 
 	 * Non-null, non-empty, no spaces 
-	 * whitelist basic characters [a-zA-Z0-9-] 
+	 * white list basic characters [a-zA-Z0-9-] 
 	 * length equal or under 128 length
 	 */
 	
@@ -35,7 +35,7 @@ public class InputValidation {
 	
 	/*USERNAME VALIDATION
 	 * Basic Validation
-	 * + Allow underscores (_) and periods (.) for common username conventions
+	 * + Allow underscores (_) and periods (.) for common user name conventions
 	 */
 	public static boolean validateUsername(String username) {
 		return username != null 

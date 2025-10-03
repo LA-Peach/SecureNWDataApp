@@ -16,8 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.BoxLayout;
+
 
 public class Orders extends JFrame {
 
@@ -26,17 +25,22 @@ public class Orders extends JFrame {
 	private JLabel ordersNumLabel;
 	private BusinessLogicLayer logic;
 	private JList<String> ordersDataList;
-	private SessionTimeout sessionTimeout;
 
 
 	/**
 	 * Create the frame.
+	 * @param amountOrders 
 	 */
-	public Orders(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout) {
+	public Orders(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout, int amountOrders) {
 		this.logic = logic;
-		this.sessionTimeout = sessionTimeout;
 		setTitle("Northwind DataApp");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		setName("Orders");
+		
+		//Give onClose direction to dispose of sensitive information when the window is closed
+		addWindowListener(new WindowHandler(() -> {
+			dispose();
+		}));
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,6 +73,9 @@ public class Orders extends JFrame {
 				}
 				parent.dispose();
 				dispose();
+				
+				EventLog.writeLog(Events.USER_LOGOUT);
+				
 				new LoginLayer().setVisible(true);
 			}
 		});
@@ -94,27 +101,25 @@ public class Orders extends JFrame {
 		guideLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		sessionTimeout.detectUserActivity(this);
-		sessionTimeout.startTimer();
 		
-		dataFiller();
+		dataFiller(amountOrders);
 		
 		pack();
 		setLocationRelativeTo(null);
 
 	}
 
-	private void dataFiller() {
+	private void dataFiller(int amountOrders) {
 		try {
-			//Number of employees
-			int amountOrders = logic.getOrdersAmount();
 			String strAmount = String.valueOf(amountOrders);
 			ordersNumLabel.setText(strAmount);
 			//Employee names
 			List<String> orders = logic.getOrders();
 			ordersDataList.setListData(orders.toArray(new String[0]));
 			
+			EventLog.writeLog(Events.DISPLAY_ORDERS_SUCCESS);
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
+			EventLog.writeLog(Events.DISPLAY_ORDERS_FAILURE);
 			e.printStackTrace();
 		}
 		

@@ -17,6 +17,9 @@ public class SessionTimeout {
 			public void actionPerformed(ActionEvent e) {
 				sessionInactivityTimer.stop();
 				onTimeout.run();
+				
+				EventLog.writeLog(Events.SESSION_TIMEOUT);
+				
 			}
 		});
 		sessionInactivityTimer.setRepeats(false);

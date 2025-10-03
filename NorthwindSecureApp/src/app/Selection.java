@@ -1,6 +1,5 @@
 package app;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,27 +7,21 @@ import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.FlowLayout;
-import app.Orders;
-import javax.swing.JSeparator;
 import net.miginfocom.swing.MigLayout;
 
 public class Selection extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private BusinessLogicLayer logic;
 	private List<JFrame> openFrames = new ArrayList<>();
 	private SessionTimeout sessionTimeout;
 
@@ -36,9 +29,16 @@ public class Selection extends JFrame {
 	 * Create the frame.
 	 */
 	public Selection(BusinessLogicLayer logic) {
-		this.logic = logic;
 		setTitle("Northwind DataApp");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		setName("Selection");
+		
+		//Give onClose instruction to go back to the login page
+		addWindowListener(new WindowHandler(() -> {
+			EventLog.writeLog(Events.USER_LOGOUT);
+			dispose();
+			new LoginLayer().setVisible(true);
+		}));
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,15 +55,21 @@ public class Selection extends JFrame {
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					//Test for access first
-					logic.getCustomerAmount();
+					//Test for access first, pass this value to PresentationLayer
+					int amountCustomer = logic.getCustomerAmount();
 					//Reset the timer on activity
 					sessionTimeout.resetTimer();
 					//If no exception, open the window
-					PresentationLayer customers = new PresentationLayer(logic, Selection.this, sessionTimeout);
+					PresentationLayer customers = new PresentationLayer(logic, Selection.this, sessionTimeout, amountCustomer);
 					openFrames.add(customers);
+					
+					EventLog.writeLog(Events.ACCESS_CUSTOMERS_SUCCESS);
+					
 					customers.setVisible(true);
 				} catch(SQLException ee) {
+					
+					EventLog.writeLog(Events.ACCESS_CUSTOMERS_FAILURE);
+					
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -76,13 +82,19 @@ public class Selection extends JFrame {
 		employeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					logic.getEmployeeAmount();
+					int amountEmployee = logic.getEmployeeAmount();
 					//Reset the timer on activity
 					sessionTimeout.resetTimer();
-					Employees employeeData = new Employees(logic, Selection.this, sessionTimeout);
+					Employees employeeData = new Employees(logic, Selection.this, sessionTimeout, amountEmployee);
 					openFrames.add(employeeData);
+					
+					EventLog.writeLog(Events.ACCESS_EMPLOYEES_SUCCESS);
+					
 					employeeData.setVisible(true);
 				} catch(SQLException ee) {
+					
+					EventLog.writeLog(Events.ACCESS_EMPLOYEES_FAILURE);
+					
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -95,12 +107,18 @@ public class Selection extends JFrame {
 		ordersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					logic.getOrdersAmount();
+					int amountOrders = logic.getOrdersAmount();
 					sessionTimeout.resetTimer();
-					Orders ordersData = new Orders(logic, Selection.this, sessionTimeout);
+					Orders ordersData = new Orders(logic, Selection.this, sessionTimeout, amountOrders);
 					openFrames.add(ordersData);
+					
+					EventLog.writeLog(Events.ACCESS_ORDERS_SUCCESS);
+					
 					ordersData.setVisible(true);
 				} catch(SQLException ee) {
+					
+					EventLog.writeLog(Events.ACCESS_ORDERS_FAILURE);
+					
 					JOptionPane.showMessageDialog(null, "Insufficient permissions.", "Access Denied", JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -121,6 +139,9 @@ public class Selection extends JFrame {
 				}
 				openFrames.clear();
 				dispose();
+				
+				EventLog.writeLog(Events.USER_LOGOUT);
+				
 				new LoginLayer().setVisible(true);
 			}
 		});

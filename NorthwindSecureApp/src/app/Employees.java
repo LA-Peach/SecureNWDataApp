@@ -1,7 +1,5 @@
 package app;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,7 +14,6 @@ import java.util.List;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import javax.swing.JList;
-import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 
@@ -27,24 +24,27 @@ public class Employees extends JFrame {
 	private JLabel employeeNumLabel;
 	private JList<String> employeeList;
 	private BusinessLogicLayer logic;
-	private SessionTimeout sessionTimeout;
-
 
 	/**
 	 * Create the frame.
 	 */
-	public Employees(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout) {
+	public Employees(BusinessLogicLayer logic, Selection parent, SessionTimeout sessionTimeout, int amountFromAccessCheck) {
 		this.logic = logic;
-		this.sessionTimeout = sessionTimeout;
 		setTitle("Northwind DataApp");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		setName("Employees");
+		
+		//Give onClose direction to dispose of sensitive information when the window is closed
+		addWindowListener(new WindowHandler(() -> {
+			dispose();
+		}));
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		employeeList = new JList();
+		employeeList = new JList<>();
 		employeeList.setFont(new Font("Arial", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(employeeList);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -78,6 +78,9 @@ public class Employees extends JFrame {
 				}
 				parent.dispose();
 				dispose();
+				
+				EventLog.writeLog(Events.USER_LOGOUT);
+				
 				new LoginLayer().setVisible(true);
 			}
 		});
@@ -90,27 +93,24 @@ public class Employees extends JFrame {
 		panel_1.add(employeeDataLabel, "cell 1 0, growx");
 		
 		sessionTimeout.detectUserActivity(this);
-		sessionTimeout.startTimer();
 		
-		dataFiller();
+		dataFiller(amountFromAccessCheck);
 		
 		pack();
 		setLocationRelativeTo(null);
 
 	}
 
-	private void dataFiller() {
+	private void dataFiller(int amountEmployee) {
 		try {
-			//Number of employees
-			int amountEmployee = logic.getEmployeeAmount();
 			String strAmount = String.valueOf(amountEmployee);
 			employeeNumLabel.setText(strAmount);
 			//Employee names
 			List<String> employees = logic.getEmployeeNames();
 			employeeList.setListData(employees.toArray(new String[0]));
-			
+			EventLog.writeLog(Events.DISPLAY_EMPLOYEES_SUCCESS);
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
+			EventLog.writeLog(Events.DISPLAY_EMPLOYEES_FAILURE);
 			e.printStackTrace();
 		}
 		
