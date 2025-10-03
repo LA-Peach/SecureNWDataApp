@@ -1,8 +1,3 @@
-/*
- * MOSTLY FROM ORACLE DOCUMENTATION
- * https://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html#windowevent
- */
-
 package app;
 
 import java.awt.event.WindowEvent;
@@ -14,7 +9,7 @@ public class WindowHandler extends JFrame implements WindowListener{
 	
 	private static final long serialVersionUID = 1L;
 	
-	//Each version has it's own closing settings
+	//Allows windows to have their own closing settings
 	private Runnable onClose;
 	
 	//Constructor

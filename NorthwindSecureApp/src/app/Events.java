@@ -128,7 +128,6 @@ public enum Events {
 	}
 	
 	public String getTimestamp() {
-		//Format
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm:ss");
 		return LocalDateTime.now().format(formatter);
 	}

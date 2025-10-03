@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class EventLog {
 	
+	//Logger variables
 	private static Logger logger;
 	private static String logDirectory = "logs";
 	private static String filename = logDirectory +"/NWDataApp.log";
@@ -105,7 +106,6 @@ public class EventLog {
 		String rt = event.getTimestamp();
 		
 		//Get security tag (st) by examining the value of the severity in the context of RFC 5424
-		//At the same time set the level for logging 
 		int severity = event.getSeverity();
 		String st = null;
 		switch (severity) {
